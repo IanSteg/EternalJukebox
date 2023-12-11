@@ -9,6 +9,7 @@ import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
 import kotlinx.coroutines.*
 import org.abimon.eternalJukebox.*
+import org.abimon.eternalJukebox.data.audio.YoutubeAudioSource
 import org.abimon.eternalJukebox.objects.ClientInfo
 import org.abimon.eternalJukebox.objects.EnumAnalyticType
 import org.abimon.units.data.ByteUnit
@@ -31,6 +32,7 @@ object SiteAPI: IAPI {
     override fun setup(router: Router) {
         router.get("/healthy").handler { it.response().end("Up for ${startupTime.timeDifference()}") }
         router.get("/usage").handler(SiteAPI::usage)
+        router.get("/quota").handler { it.response().end("${YoutubeAudioSource.hitQuota}") }
 
         router.post().handler(BodyHandler.create().setBodyLimit(1 * 1000 * 1000).setDeleteUploadedFilesOnEnd(true))
 
